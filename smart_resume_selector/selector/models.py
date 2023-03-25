@@ -12,7 +12,7 @@ class company(models.Model):
     cname=models.CharField(max_length=100)
     place=models.CharField(max_length=100)
     post=models.CharField(max_length=100)
-    pin=models.IntegerField
+    # pin=models.IntegerField
     phone=models.BigIntegerField
     mail=models.CharField(max_length=100)
 
