@@ -6,10 +6,15 @@
 </head>
 
 <body>
-<form action="" method="post" enctype="multipart/form-data" name="form1" id="form1">
+<form action="{% url 'postqestions' %}" method="post" enctype="multipart/form-data" name="form1" id="form1">
   <div align="center">
     <p>Add Question </p>
     <table width="348" border="1">
+      <tr>
+        <th width="117" scope="row">VACANCY</th>
+        <td width="67">{{ val.vacancy }}<label>
+        </label></td>
+      </tr>
       <tr>
         <th width="117" scope="row">Question</th>
         <td width="67"><label>

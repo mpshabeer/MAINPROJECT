@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+<form id="form1" name="form1" method="post" action="">
+  <div align="center">
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <table width="758" border="1">
+      <tr>
+        <th width="54" scope="col">vacancy</th>
+        <th width="92" scope="col">No of Vacancy </th>
+        <th width="140" scope="col">Rrequirments</th>
+        <th width="219" scope="col">delete </th>
+        <th width="219" scope="col">Add Question / Edit Question </th>
+      </tr>
+      {% for i in val %}
+      <tr>
+        <td>{{i.vacancy}}</td>
+        <td>{{i.no_of_vacancy}}</td>
+        <td>{{i.requirments}}</td>
+        <td>
+          <a href="#">DELETE</a><a href=""> </a></td>
+        <td><a href="{% url 'addquestion' id=i.id %}">ADD QUESTION </a><br />
+          <a href="{% url 'editquestion' id=i.id %}">Manage QUESTION</a><a href=""> </a></td>
+      </tr>
+     {% endfor %}
+      <tr>
+        <td colspan="5"><div align="right">
+            <label></label>
+            <div align="center"><a href=""></a>  <a href="addvacancy">ADD VACANCY</a><br />
+        <a href=""></a>     </div></div></td>
+      </tr>
+    </table>
+  </div>
+</form>
+</body>
+</html>

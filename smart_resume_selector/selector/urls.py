@@ -10,17 +10,25 @@ urlpatterns=[
     path('viewcareerguide',views.viewcareerguide,name="viewcareerguide"),
     path('viewcandidatecompliant',views.postcompcompliant,name="viewcandidatecompliant"),
     path('viewcompcompliant',views.viewcompcompliant,name="viewcompcompliant"),
-    path('replycomplaint',views.replycomplaint,name="replycomplaint"),
-
+    path('replycomplaint/<int:id>',views.replycomplaint,name="replycomplaint"),
+    path('postreply',views.postreply,name="postreply"),
     
     path('registercompnay',views.registercompnay,name="registercompnay"),
+    path('managevacancy',views.managevacancy,name="managevacancy"),
+    path('verifcmp/<int:id>',views.verifcmp,name="verifcmp"),
+    path('reject/<int:id>',views.reject,name="reject"),
+    path('vacancyadd',views.vacancyadd,name="vacancyadd"),
+
+
     path('addvacancy',views.addvacancy,name="addvacancy"),
-    path('addquestion',views.addquestion,name="addquestion"),
-    path('editquestion',views.editquestion,name="editquestion"),
+    path('addquestion/<int:id>',views.addquestion,name="addquestion"),
+    path('editquestion/<int:id>',views.editquestion,name="editquestion"),
     path('viewresult',views.viewresult,name="viewresult"),
     path('postcompcompliant',views.postcompcompliant,name="postcompcompliant"),
     path('viewcompcompliantreply',views.viewcompcompliantreply,name="viewcompcompliantreply"),
     path('viewfeedback',views.viewfeedback,name="viewfeedback"),
+    path('postcompliant', views.postcompliant, name="postcompliant"),
+    path('postqestions', views.postqestions, name="postqestions"),
 
     path('registercandidate',views.registercandidate,name="registercandidate"),
     path('viewvacancy',views.viewvacancy,name="viewvacancy"),
@@ -29,18 +37,29 @@ urlpatterns=[
     path('attendtest',views.attendtest,name="attendtest"),    
     path('cancompliantpost',views.cancompliantpost,name="cancompliantpost"),
     path('candidatteviewreply',views.candidatteviewreply,name="candidatteviewreply"),
-    path('postfeedback',views.postfeedback,name="postfeedback"),
-   
+    path('viewvideos',views.viewvideos,name="viewvideos"),
+    path('viewtips',views.viewtips,name="viewtips"),
+    path('postfeed', views.postfeed, name="postfeed"),
+    path('postfeedback', views.postfeedback, name="postfeedback"),
+    path('appliedstatus', views.appliedstatus, name="appliedstatus"),
+
     path('addmockquestion',views.addmockquestion,name="addmockquestion"),
     path('editmockquestion',views.editmockquestion,name="editmockquestion"),
     path('viewmockresult',views.viewmockresult,name="viewmockresult"),
     path('addtips',views.addtips,name="addtips"),
     path('addvideos',views.addvideos,name="addvideos"),
+    path('postmockqestions',views.postmockqestions,name="postmockqestions"),
+    path('posttips', views.posttips, name="posttips"),
     
     path('cmpreg',views.cmpreg,name="cmpreg"),
     path('cnreg',views.cnreg,name="cnreg"),
     path('careerreg',views.careerreg,name="careerreg"),
-    
+
+    path('adminhome', views.adminhome, name="adminhome"),
+    path('cmphome',views.cmphome,name="cmphome"),
+    path('cndhome', views.cndhome, name="cndhome"),
+    path('careerhome',views.careerhome,name="careerhome"),
+    path('logincode',views.logincode,name="logincode"),
     
     
 ] 

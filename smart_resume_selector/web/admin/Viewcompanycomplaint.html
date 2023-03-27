@@ -11,26 +11,22 @@
     <p>View Complaint </p>
     <table width="267" border="1">
       <tr>
-        <th width="52" scope="col">User_id</th>
-        <th width="76" scope="col">User_name</th>
-        <th width="68" scope="col">Complient</th>
+
+        <th width="76" scope="col">company name</th>
+        <th width="68" scope="col">Compliant</th>
         <th width="4" scope="col">Date</th>
+
         <th width="33" scope="col">Action</th>
       </tr>
+      {% for i in val %}
       <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td><div align="right"><a href="#">replay</a></div></td>
+
+        <td>{{i.cid.cname}}&nbsp;</td>
+        <td>{{i.complaint}}&nbsp;</td>
+        <td>{{i.date}}&nbsp;</td>
+        <td><div align="right">{% if i.reply == 'pending' %}<a href="{% url 'replycomplaint' id=i.id %}">replay</a>{% else %}  {{i.reply}}  {% endif %}</div></td>
       </tr>
-      <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-      </tr>
+      {% endfor %}
     </table>
     <p>&nbsp; </p>
   </div>

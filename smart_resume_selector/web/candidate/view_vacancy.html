@@ -17,16 +17,17 @@
         <th width="135" scope="col">Rrequirments</th>
         <th width="135" scope="col">Apply</th>
       </tr>
+      {% for i in val %}
       <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td><div align="right"></div></td>
+        <td>{{i.vacancy}}&nbsp;</td>
+        <td>&nbsp;{{i.no_of_vacancy}}</td>
+        <td>{{i.requirments}}<div align="right"></div></td>
         <td><div align="right">
           <label>
-          <input name="Submit" type="submit" value="Apply" />
+          <a href="apply">apply</a>
           </label>
         </div></td>
-      </tr>
+      </tr>{% endfor %}
     </table>
   </div>
 </form>

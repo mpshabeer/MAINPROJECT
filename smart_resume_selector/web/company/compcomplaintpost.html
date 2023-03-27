@@ -6,26 +6,42 @@
 </head>
 
 <body>
-<form id="form1" name="form1" method="post" action="">
+<form id="form1" name="form1" method="post" action="postcompliant">
   <div align="center">
-    <p>Post Complaint </p>
-    <table width="200" border="1">
+    <p>Post compliant </p>
+    <table width="260" border="1">
       <tr>
-        <th scope="row">Compliant</th>
-        <td><label>
-          <input type="text" name="textfield" />
+        <th width="68" scope="row">Post Compliant</th>
+        <td width="176"><label>
+          <input name="textfield" type="text" maxlength="1000" />
         </label></td>
       </tr>
-      <tr>
-        <th colspan="2" scope="row">&nbsp;</th>
-      </tr>
+      
       <tr>
         <th colspan="2" scope="row"><label>
           <input type="submit" name="Submit" value="Submit" />
         </label></th>
       </tr>
     </table>
-    <p>&nbsp;</p>
+    <p>View Reply </p>
+    <table width="267" border="1">
+      <tr>
+
+        <th width="68" scope="col">Compliant</th>
+        <th width="4" scope="col">Date</th>
+        <th width="4" scope="col">reply</th>
+        <th width="33" scope="col">Action</th>
+      </tr>
+      {% for i in val %}
+      <tr>
+        <td>{{i.complaint}}&nbsp;</td>
+        <td>{{i.date}}</td>
+        <td>{{i.reply}}</td>
+        <td><div align="right"><a href="#">delete</a></div></td>
+      </tr>
+{% endfor %}
+    </table>
+    <p>&nbsp; </p>
   </div>
 </form>
 </body>

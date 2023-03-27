@@ -107,18 +107,18 @@ insert  into `auth_permission`(`id`,`name`,`content_type_id`,`codename`) values
 (42,'Can change test_questions',11,'change_test_questions'),
 (43,'Can delete test_questions',11,'delete_test_questions'),
 (44,'Can view test_questions',11,'view_test_questions'),
-(45,'Can add videos',12,'add_videos'),
-(46,'Can change videos',12,'change_videos'),
-(47,'Can delete videos',12,'delete_videos'),
-(48,'Can view videos',12,'view_videos'),
-(49,'Can add vacancy',13,'add_vacancy'),
-(50,'Can change vacancy',13,'change_vacancy'),
-(51,'Can delete vacancy',13,'delete_vacancy'),
-(52,'Can view vacancy',13,'view_vacancy'),
-(53,'Can add tips',14,'add_tips'),
-(54,'Can change tips',14,'change_tips'),
-(55,'Can delete tips',14,'delete_tips'),
-(56,'Can view tips',14,'view_tips'),
+(45,'Can add tips',12,'add_tips'),
+(46,'Can change tips',12,'change_tips'),
+(47,'Can delete tips',12,'delete_tips'),
+(48,'Can view tips',12,'view_tips'),
+(49,'Can add videos',13,'add_videos'),
+(50,'Can change videos',13,'change_videos'),
+(51,'Can delete videos',13,'delete_videos'),
+(52,'Can view videos',13,'view_videos'),
+(53,'Can add vacancy',14,'add_vacancy'),
+(54,'Can change vacancy',14,'change_vacancy'),
+(55,'Can delete vacancy',14,'delete_vacancy'),
+(56,'Can view vacancy',14,'view_vacancy'),
 (57,'Can add test_result',15,'add_test_result'),
 (58,'Can change test_result',15,'change_test_result'),
 (59,'Can delete test_result',15,'delete_test_result'),
@@ -264,9 +264,9 @@ insert  into `django_content_type`(`id`,`app_label`,`model`) values
 (16,'selector','rating'),
 (11,'selector','test_questions'),
 (15,'selector','test_result'),
-(14,'selector','tips'),
-(13,'selector','vacancy'),
-(12,'selector','videos'),
+(12,'selector','tips'),
+(14,'selector','vacancy'),
+(13,'selector','videos'),
 (6,'sessions','session');
 
 /*Table structure for table `django_migrations` */
@@ -284,25 +284,25 @@ CREATE TABLE `django_migrations` (
 /*Data for the table `django_migrations` */
 
 insert  into `django_migrations`(`id`,`app`,`name`,`applied`) values 
-(1,'contenttypes','0001_initial','2023-03-17 10:48:36.697807'),
-(2,'auth','0001_initial','2023-03-17 10:48:37.515003'),
-(3,'admin','0001_initial','2023-03-17 10:48:37.682414'),
-(4,'admin','0002_logentry_remove_auto_add','2023-03-17 10:48:37.698412'),
-(5,'admin','0003_logentry_add_action_flag_choices','2023-03-17 10:48:37.706415'),
-(6,'contenttypes','0002_remove_content_type_name','2023-03-17 10:48:37.806621'),
-(7,'auth','0002_alter_permission_name_max_length','2023-03-17 10:48:37.881792'),
-(8,'auth','0003_alter_user_email_max_length','2023-03-17 10:48:37.915810'),
-(9,'auth','0004_alter_user_username_opts','2023-03-17 10:48:37.940443'),
-(10,'auth','0005_alter_user_last_login_null','2023-03-17 10:48:38.005977'),
-(11,'auth','0006_require_contenttypes_0002','2023-03-17 10:48:38.013959'),
-(12,'auth','0007_alter_validators_add_error_messages','2023-03-17 10:48:38.021957'),
-(13,'auth','0008_alter_user_username_max_length','2023-03-17 10:48:38.101821'),
-(14,'auth','0009_alter_user_last_name_max_length','2023-03-17 10:48:38.182419'),
-(15,'auth','0010_alter_group_name_max_length','2023-03-17 10:48:38.214990'),
-(16,'auth','0011_update_proxy_permissions','2023-03-17 10:48:38.214990'),
-(17,'auth','0012_alter_user_first_name_max_length','2023-03-17 10:48:38.298370'),
-(18,'selector','0001_initial','2023-03-17 10:48:40.165004'),
-(19,'sessions','0001_initial','2023-03-17 10:48:40.205695');
+(1,'contenttypes','0001_initial','2023-03-26 10:00:58.123721'),
+(2,'auth','0001_initial','2023-03-26 10:00:58.711720'),
+(3,'admin','0001_initial','2023-03-26 10:00:58.852260'),
+(4,'admin','0002_logentry_remove_auto_add','2023-03-26 10:00:58.865267'),
+(5,'admin','0003_logentry_add_action_flag_choices','2023-03-26 10:00:58.876243'),
+(6,'contenttypes','0002_remove_content_type_name','2023-03-26 10:00:58.965634'),
+(7,'auth','0002_alter_permission_name_max_length','2023-03-26 10:00:59.038772'),
+(8,'auth','0003_alter_user_email_max_length','2023-03-26 10:00:59.070474'),
+(9,'auth','0004_alter_user_username_opts','2023-03-26 10:00:59.082632'),
+(10,'auth','0005_alter_user_last_login_null','2023-03-26 10:00:59.149997'),
+(11,'auth','0006_require_contenttypes_0002','2023-03-26 10:00:59.154482'),
+(12,'auth','0007_alter_validators_add_error_messages','2023-03-26 10:00:59.166845'),
+(13,'auth','0008_alter_user_username_max_length','2023-03-26 10:00:59.235130'),
+(14,'auth','0009_alter_user_last_name_max_length','2023-03-26 10:00:59.336161'),
+(15,'auth','0010_alter_group_name_max_length','2023-03-26 10:00:59.367597'),
+(16,'auth','0011_update_proxy_permissions','2023-03-26 10:00:59.380696'),
+(17,'auth','0012_alter_user_first_name_max_length','2023-03-26 10:00:59.458266'),
+(18,'selector','0001_initial','2023-03-26 10:01:00.790422'),
+(19,'sessions','0001_initial','2023-03-26 10:01:00.831187');
 
 /*Table structure for table `django_session` */
 
@@ -317,6 +317,9 @@ CREATE TABLE `django_session` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `django_session` */
+
+insert  into `django_session`(`session_key`,`session_data`,`expire_date`) values 
+('zin8aj3qylm00n9pbj2eajesc48de2ty','eyJsaWQiOjIsInZpZCI6MSwiY2lkIjoxfQ:1pgNax:DQaVk4U_7goelEAuTLP5ebQ06VUhZC2LRaSQe8WsADc','2023-04-09 10:27:27.167864');
 
 /*Table structure for table `selector_applied` */
 
@@ -349,14 +352,18 @@ CREATE TABLE `selector_candidate` (
   `place` varchar(100) NOT NULL,
   `gender` varchar(100) NOT NULL,
   `address` varchar(150) NOT NULL,
+  `phone` bigint NOT NULL,
   `mail` varchar(100) NOT NULL,
   `lid_id` bigint NOT NULL,
   PRIMARY KEY (`id`),
   KEY `selector_candidate_lid_id_31eb0c5b_fk_selector_login_id` (`lid_id`),
   CONSTRAINT `selector_candidate_lid_id_31eb0c5b_fk_selector_login_id` FOREIGN KEY (`lid_id`) REFERENCES `selector_login` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `selector_candidate` */
+
+insert  into `selector_candidate`(`id`,`name`,`place`,`gender`,`address`,`phone`,`mail`,`lid_id`) values 
+(1,'shabeer','malappuram','male','mp',7893489,'mpshabeer007@gmail.com',2);
 
 /*Table structure for table `selector_candidate_complaint` */
 
@@ -384,10 +391,16 @@ CREATE TABLE `selector_career_guidance` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `username` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `lid_id` bigint NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `selector_career_guidance_lid_id_71ded804_fk_selector_login_id` (`lid_id`),
+  CONSTRAINT `selector_career_guidance_lid_id_71ded804_fk_selector_login_id` FOREIGN KEY (`lid_id`) REFERENCES `selector_login` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `selector_career_guidance` */
+
+insert  into `selector_career_guidance`(`id`,`username`,`password`,`lid_id`) values 
+(1,'career','careerguide',4);
 
 /*Table structure for table `selector_company` */
 
@@ -403,9 +416,12 @@ CREATE TABLE `selector_company` (
   PRIMARY KEY (`id`),
   KEY `selector_company_lid_id_c4e0725d_fk_selector_login_id` (`lid_id`),
   CONSTRAINT `selector_company_lid_id_c4e0725d_fk_selector_login_id` FOREIGN KEY (`lid_id`) REFERENCES `selector_login` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `selector_company` */
+
+insert  into `selector_company`(`id`,`cname`,`place`,`post`,`mail`,`lid_id`) values 
+(1,'tcs','Kochi','6765m','tcs@gmail.com',3);
 
 /*Table structure for table `selector_company_complaint` */
 
@@ -413,17 +429,19 @@ DROP TABLE IF EXISTS `selector_company_complaint`;
 
 CREATE TABLE `selector_company_complaint` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `type` varchar(50) NOT NULL,
   `complaint` varchar(500) NOT NULL,
   `reply` varchar(500) NOT NULL,
   `date` date NOT NULL,
-  `candidate_id_id` bigint NOT NULL,
+  `cid_id` bigint NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `selector_company_com_candidate_id_id_cd453ba2_fk_selector_` (`candidate_id_id`),
-  CONSTRAINT `selector_company_com_candidate_id_id_cd453ba2_fk_selector_` FOREIGN KEY (`candidate_id_id`) REFERENCES `selector_candidate` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `selector_company_com_cid_id_e19f6b8d_fk_selector_` (`cid_id`),
+  CONSTRAINT `selector_company_com_cid_id_e19f6b8d_fk_selector_` FOREIGN KEY (`cid_id`) REFERENCES `selector_company` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `selector_company_complaint` */
+
+insert  into `selector_company_complaint`(`id`,`complaint`,`reply`,`date`,`cid_id`) values 
+(1,'system not working','ok','2023-03-26',1);
 
 /*Table structure for table `selector_feedback` */
 
@@ -436,9 +454,12 @@ CREATE TABLE `selector_feedback` (
   PRIMARY KEY (`id`),
   KEY `selector_feedback_candidate_id_id_4545f35e_fk_selector_` (`candidate_id_id`),
   CONSTRAINT `selector_feedback_candidate_id_id_4545f35e_fk_selector_` FOREIGN KEY (`candidate_id_id`) REFERENCES `selector_candidate` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `selector_feedback` */
+
+insert  into `selector_feedback`(`id`,`feedback`,`candidate_id_id`) values 
+(1,'okay',1);
 
 /*Table structure for table `selector_login` */
 
@@ -450,9 +471,15 @@ CREATE TABLE `selector_login` (
   `password` varchar(100) NOT NULL,
   `utype` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `selector_login` */
+
+insert  into `selector_login`(`id`,`username`,`password`,`utype`) values 
+(1,'admin','admin','admin'),
+(2,'sha','123','candidate'),
+(3,'tcs','123','company'),
+(4,'career','careerguide','careerguidance');
 
 /*Table structure for table `selector_mock_result` */
 
@@ -462,15 +489,12 @@ CREATE TABLE `selector_mock_result` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `date` date NOT NULL,
   `candidate_id_id` bigint NOT NULL,
-  `mock_id_id` bigint NOT NULL,
-  `vid_id` bigint NOT NULL,
+  `question_id_id` bigint NOT NULL,
   PRIMARY KEY (`id`),
   KEY `selector_mock_result_candidate_id_id_91b8d837_fk_selector_` (`candidate_id_id`),
-  KEY `selector_mock_result_mock_id_id_485e1ccd_fk_selector_` (`mock_id_id`),
-  KEY `selector_mock_result_vid_id_54576297_fk_selector_vacancy_id` (`vid_id`),
+  KEY `selector_mock_result_question_id_id_02dd63b3_fk_selector_` (`question_id_id`),
   CONSTRAINT `selector_mock_result_candidate_id_id_91b8d837_fk_selector_` FOREIGN KEY (`candidate_id_id`) REFERENCES `selector_candidate` (`id`),
-  CONSTRAINT `selector_mock_result_mock_id_id_485e1ccd_fk_selector_` FOREIGN KEY (`mock_id_id`) REFERENCES `selector_mock_test_questions` (`id`),
-  CONSTRAINT `selector_mock_result_vid_id_54576297_fk_selector_vacancy_id` FOREIGN KEY (`vid_id`) REFERENCES `selector_vacancy` (`id`)
+  CONSTRAINT `selector_mock_result_question_id_id_02dd63b3_fk_selector_` FOREIGN KEY (`question_id_id`) REFERENCES `selector_mock_test_questions` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `selector_mock_result` */
@@ -481,26 +505,22 @@ DROP TABLE IF EXISTS `selector_mock_test_questions`;
 
 CREATE TABLE `selector_mock_test_questions` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `question_id` int NOT NULL,
   `question` varchar(500) NOT NULL,
   `option1` varchar(100) NOT NULL,
   `option2` varchar(100) NOT NULL,
   `option3` varchar(100) NOT NULL,
   `option4` varchar(100) NOT NULL,
   `answer` varchar(100) NOT NULL,
-  `candidate_id_id` bigint NOT NULL,
   `cg_id_id` bigint NOT NULL,
-  `vid_id` bigint NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `selector_mock_test_q_candidate_id_id_81955026_fk_selector_` (`candidate_id_id`),
   KEY `selector_mock_test_q_cg_id_id_599de567_fk_selector_` (`cg_id_id`),
-  KEY `selector_mock_test_q_vid_id_d5b45aa9_fk_selector_` (`vid_id`),
-  CONSTRAINT `selector_mock_test_q_candidate_id_id_81955026_fk_selector_` FOREIGN KEY (`candidate_id_id`) REFERENCES `selector_candidate` (`id`),
-  CONSTRAINT `selector_mock_test_q_cg_id_id_599de567_fk_selector_` FOREIGN KEY (`cg_id_id`) REFERENCES `selector_career_guidance` (`id`),
-  CONSTRAINT `selector_mock_test_q_vid_id_d5b45aa9_fk_selector_` FOREIGN KEY (`vid_id`) REFERENCES `selector_vacancy` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `selector_mock_test_q_cg_id_id_599de567_fk_selector_` FOREIGN KEY (`cg_id_id`) REFERENCES `selector_career_guidance` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `selector_mock_test_questions` */
+
+insert  into `selector_mock_test_questions`(`id`,`question`,`option1`,`option2`,`option3`,`option4`,`answer`,`cg_id_id`) values 
+(1,'which is not a prime','7','5','3','2','2',1);
 
 /*Table structure for table `selector_rating` */
 
@@ -526,22 +546,15 @@ DROP TABLE IF EXISTS `selector_test_questions`;
 
 CREATE TABLE `selector_test_questions` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `question_id` int NOT NULL,
   `question` varchar(500) NOT NULL,
   `option1` varchar(100) NOT NULL,
   `option2` varchar(100) NOT NULL,
   `option3` varchar(100) NOT NULL,
   `option4` varchar(100) NOT NULL,
   `answer` varchar(100) NOT NULL,
-  `candidate_id_id` bigint NOT NULL,
-  `cid_id` bigint NOT NULL,
   `vid_id` bigint NOT NULL,
   PRIMARY KEY (`id`),
   KEY `selector_test_questions_vid_id_6418d3ea_fk_selector_vacancy_id` (`vid_id`),
-  KEY `selector_test_questi_candidate_id_id_4d6fe36c_fk_selector_` (`candidate_id_id`),
-  KEY `selector_test_questi_cid_id_24941c95_fk_selector_` (`cid_id`),
-  CONSTRAINT `selector_test_questi_candidate_id_id_4d6fe36c_fk_selector_` FOREIGN KEY (`candidate_id_id`) REFERENCES `selector_candidate` (`id`),
-  CONSTRAINT `selector_test_questi_cid_id_24941c95_fk_selector_` FOREIGN KEY (`cid_id`) REFERENCES `selector_career_guidance` (`id`),
   CONSTRAINT `selector_test_questions_vid_id_6418d3ea_fk_selector_vacancy_id` FOREIGN KEY (`vid_id`) REFERENCES `selector_vacancy` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -555,14 +568,14 @@ CREATE TABLE `selector_test_result` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `date` date NOT NULL,
   `candidate_id_id` bigint NOT NULL,
-  `test_id_id` bigint NOT NULL,
+  `question_id_id` bigint NOT NULL,
   `vid_id` bigint NOT NULL,
   PRIMARY KEY (`id`),
   KEY `selector_test_result_candidate_id_id_82d70455_fk_selector_` (`candidate_id_id`),
-  KEY `selector_test_result_test_id_id_2e349579_fk_selector_` (`test_id_id`),
+  KEY `selector_test_result_question_id_id_2ecccc51_fk_selector_` (`question_id_id`),
   KEY `selector_test_result_vid_id_46e46dd3_fk_selector_vacancy_id` (`vid_id`),
   CONSTRAINT `selector_test_result_candidate_id_id_82d70455_fk_selector_` FOREIGN KEY (`candidate_id_id`) REFERENCES `selector_candidate` (`id`),
-  CONSTRAINT `selector_test_result_test_id_id_2e349579_fk_selector_` FOREIGN KEY (`test_id_id`) REFERENCES `selector_test_questions` (`id`),
+  CONSTRAINT `selector_test_result_question_id_id_2ecccc51_fk_selector_` FOREIGN KEY (`question_id_id`) REFERENCES `selector_test_questions` (`id`),
   CONSTRAINT `selector_test_result_vid_id_46e46dd3_fk_selector_vacancy_id` FOREIGN KEY (`vid_id`) REFERENCES `selector_vacancy` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -574,14 +587,16 @@ DROP TABLE IF EXISTS `selector_tips`;
 
 CREATE TABLE `selector_tips` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `feedback` varchar(500) NOT NULL,
-  `cg_id_id` bigint NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `selector_tips_cg_id_id_b1cf973f_fk_selector_career_guidance_id` (`cg_id_id`),
-  CONSTRAINT `selector_tips_cg_id_id_b1cf973f_fk_selector_career_guidance_id` FOREIGN KEY (`cg_id_id`) REFERENCES `selector_career_guidance` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `date` date NOT NULL,
+  `tips` varchar(500) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `selector_tips` */
+
+insert  into `selector_tips`(`id`,`date`,`tips`) values 
+(1,'2023-03-26','use small letter'),
+(2,'2023-03-26','use capital letter for name');
 
 /*Table structure for table `selector_vacancy` */
 
@@ -591,13 +606,17 @@ CREATE TABLE `selector_vacancy` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `vacancy` varchar(100) NOT NULL,
   `requirments` varchar(300) NOT NULL,
+  `no_of_vacancy` int NOT NULL,
   `cid_id` bigint NOT NULL,
   PRIMARY KEY (`id`),
   KEY `selector_vacancy_cid_id_40c07d8a_fk_selector_company_id` (`cid_id`),
   CONSTRAINT `selector_vacancy_cid_id_40c07d8a_fk_selector_company_id` FOREIGN KEY (`cid_id`) REFERENCES `selector_company` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `selector_vacancy` */
+
+insert  into `selector_vacancy`(`id`,`vacancy`,`requirments`,`no_of_vacancy`,`cid_id`) values 
+(1,'software engineer','JAVA ,OOPS Concept',6,1);
 
 /*Table structure for table `selector_videos` */
 
@@ -605,10 +624,8 @@ DROP TABLE IF EXISTS `selector_videos`;
 
 CREATE TABLE `selector_videos` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `cg_id_id` bigint NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `selector_videos_cg_id_id_8ec73db2_fk_selector_career_guidance_id` (`cg_id_id`),
-  CONSTRAINT `selector_videos_cg_id_id_8ec73db2_fk_selector_career_guidance_id` FOREIGN KEY (`cg_id_id`) REFERENCES `selector_career_guidance` (`id`)
+  `date` date NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `selector_videos` */
