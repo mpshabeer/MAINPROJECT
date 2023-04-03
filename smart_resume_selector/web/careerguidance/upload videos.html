@@ -6,14 +6,29 @@
 </head>
 
 <body>
-<form action="" method="post" enctype="multipart/form-data" name="form1" id="form1">
+<form action="{% url 'uploadvideo' %}" method="post" enctype="multipart/form-data" name="form1" id="form1">
   <div align="center">
-    <p>Upload Videos </p>
+    <p>&nbsp;</p>
+    <table width="350" border="1">
+      <tr>
+        <th width="90" scope="col">videos</th>
+        <th width="138" scope="col">date</th>
+        <th width="100" scope="col">delete</th>
+      </tr>
+      {% for i in val%}
+      <tr>
+        <td>{{i.video}}&nbsp;</td>
+        <td>{{i.date}}&nbsp;</td>
+        <td><a href="{% url 'deletevideo' id=i.id %}">delete</a></td>
+      </tr>
+      {% endfor %}
+    </table>
+    <p>&nbsp;</p>
     <table width="348" border="1">
       <tr>
         <th width="117" scope="row">Upload Videos </th>
         <td width="67"><label>
-          <input type="file" name="file" />
+          <input type="file" name="file" required/>
         </label></td>
       </tr>
       <tr>

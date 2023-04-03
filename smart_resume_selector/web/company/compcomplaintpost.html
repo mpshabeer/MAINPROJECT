@@ -37,7 +37,7 @@
         <td>{{i.complaint}}&nbsp;</td>
         <td>{{i.date}}</td>
         <td>{{i.reply}}</td>
-        <td><div align="right"><a href="#">delete</a></div></td>
+        <td><div align="right"><a href="{% url 'deletecompliant' id=i.id %}">delete</a></div></td>
       </tr>
 {% endfor %}
     </table>

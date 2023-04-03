@@ -14,11 +14,13 @@
         <th scope="col">candidate name </th>
         <th scope="col">resume</th>
       </tr>
+      {% for i in val %}
       <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
+        <td>&nbsp;{{i.vid.vacancy}}</td>
+        <td>{{i.candidate_id.name}}&nbsp;</td>
+        <td><a href="./media/{{i.resume}}">{{i.resume}}</a></td>
       </tr>
+      {% endfor %}
       </table>
   </div>
 </form>

@@ -29,7 +29,7 @@
         <td>&nbsp;{{i.option3}}</td>
         <td>{{i.option4}}&nbsp;</td>
          <td>&nbsp;{{i.answer}}</td>
-        <td><div align="right"><a href="#">delete</a></div></td>
+        <td><div align="right"><a href="{% url 'deletemockquestion' id=i.id %}">delete</a></div></td>
       </tr>
       {% endfor %}
       <tr>

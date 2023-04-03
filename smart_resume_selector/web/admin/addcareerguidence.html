@@ -42,11 +42,11 @@
       </tr>
       <tr> -->
         <th scope="row">Username</th>
-        <td><input type="text" name="user" /></td>
+        <td><input type="text" name="user"  required pattern="[A-Z a-z.]{3,25}" /></td>
       </tr>
       <tr>
         <th scope="row">password</th>
-        <td><input type="text" name="pwd" /></td>
+        <td><input type="text" name="pwd" required pattern="[A-Z a-z.]{3,25}" /></td>
       </tr>
       <tr>
         <th colspan="2" scope="row"><label>

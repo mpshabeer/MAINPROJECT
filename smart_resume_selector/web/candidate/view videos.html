@@ -13,13 +13,14 @@
         <th scope="col">date </th>
         <th scope="col">videos</th>
       </tr>
+      {% for i in val %}
       <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
+        <td>&nbsp;{{i.date}}</td>
+        <td>&nbsp;<a href="./media/{{i.video}}">{{i.video}}</a></td>
       </tr>
+      {% endfor %}
     </table>
-    <p><a href="#"></a></p>
-    <p><a href="#"></a></p>
+
   </div>
 </form>
 </body>

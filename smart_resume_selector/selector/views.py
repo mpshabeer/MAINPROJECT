@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse
 from django.shortcuts import render
 
@@ -18,7 +19,7 @@ def logincode(request):
 
         if ob.utype == 'admin':
             return HttpResponse('''<script>alert("welcome admin");window.location='/adminhome'</script>''')
-        elif ob.utype == 'company':
+        elif ob.utype == 'verified':
             request.session['lid']=ob.id
             return HttpResponse('''<script>alert("welcome company");window.location='/cmphome'</script>''')
         elif ob.utype == 'candidate':
@@ -103,7 +104,8 @@ def postcompcompliant(request):
 def viewcompcompliantreply(request):
     return render(request,"company/company View replay.html")
 def appliedstatus(request):
-    return render(request,"company/appliedstatus.html")
+    ob=applied.objects.all()
+    return render(request,"company/appliedstatus.html",{'val':ob})
 
 def viewfeedback(request):
     ob=feedback.objects.all()
@@ -116,12 +118,25 @@ def registercandidate(request):
 def cndhome(request):
     return render(request, "candidate/candidatehome.html")
 
+def viewcnresult(request):
+    return render(request, "candidate/viewresult.html")
+
 
 def viewvacancy(request):
     ob = vacancy.objects.all()
+    from django.db import connection
+    # cursor = connection.cursor()
+    # cursor.execute("SELECT `selector_vacancy`.*,`selector_applied`.* FROM `selector_vacancy` LEFT JOIN `selector_applied` ON `selector_vacancy`.`id`=`selector_applied`.`vid_id` GROUP BY `selector_vacancy`.`id` ")
+    # res=cursor.fetchall()
+    # print(res,"***************************************")
+    # for i in ob:
+    #     obj=applied.objects.filter(candidate_id__lid__id=request.session['lid'],vid__id=i.id)
+    #     print(obj,"+++++++++++++++++++++++++++++++++++=")
+
     return render(request,"candidate/view_vacancy.html",{'val':ob})
 
-def apply(request):
+def apply(request,id):
+    request.session['vid']=id
     return render(request,"candidate/Apply.html")
 
 def attendmock(request):
@@ -136,7 +151,8 @@ def candidatteviewreply(request):
     return render(request,"candidate/candidateviewreply.html")
 
 def viewvideos(request):
-    return render(request,"candidate/view videos.html")
+    ob = videos.objects.all()
+    return render(request,"candidate/view videos.html",{'val':ob})
 
 def viewtips(request):
     ob=tips.objects.all()
@@ -161,10 +177,12 @@ def viewmockresult(request):
 
 
 def addtips(request):
-    return render(request,"careerguidance/upload Tips.html")
+    ob=tips.objects.all()
+    return render(request,"careerguidance/upload Tips.html",{'val':ob})
 
 def addvideos(request):
-    return render(request,"careerguidance/upload videos.html")
+    ob=videos.objects.all()
+    return render(request,"careerguidance/upload videos.html",{'val':ob})
 
 def cmpreg(request):
     cname=request.POST['textfield']
@@ -241,7 +259,7 @@ def careerreg(request):
 
 def verifcmp(request,id):
     ob=login.objects.get(id=id)
-    ob.utype='company'
+    ob.utype='verified'
     ob.save()
     return HttpResponse('''<script>alert("approved");window.location='/verifycompany'</script> ''')
 
@@ -273,7 +291,13 @@ def postcompliant (request):
     ob.date=datetime.today()
     ob.reply='pending'
     ob.save()
-    return HttpResponse('''<script>alert("Compliant Added");window.location='/cmphome'</script> ''')
+    return HttpResponse('''<script>alert("Added");window.location='/cmphome'</script> ''')
+
+def deletecompliant(request,id):
+    ob = company_complaint.objects.get(id=id)
+    ob.delete()
+    return HttpResponse('''<script>alert("deleted");window.location='/cmphome'</script> ''')
+
 def postreply(request):
     reply = request.POST['textarea']
     ob=company_complaint.objects.get(id=request.session['cid'])
@@ -336,8 +360,55 @@ def posttips(request):
     ob.tips=tips1
     ob.save()
     return HttpResponse('''<script>alert("Added");window.location='/careerhome'</script> ''')
+def deletevacancy(request,id):
+    ob=vacancy.objects.get(id=id)
+    ob.delete()
+    return HttpResponse('''<script>alert("deleted");window.location='/managevacancy'</script> ''')
+
+def uploadresume(request):
+    ob1=applied.objects.filter(candidate_id__lid__id=request.session['lid'],vid__id=request.session['vid'])
+    if len(ob1) == 0:
+        resume=request.FILES['file']
+        fs=FileSystemStorage()
+        fp=fs.save(resume.name,resume)
+        ob=applied()
+        ob.resume=fp
+        ob.candidate_id=candidate.objects.get(lid__id=request.session['lid'])
+        ob.vid=vacancy.objects.get(id=request.session['vid'])
+        ob.save()
+        return HttpResponse('''<script>alert("uploaded");window.location='/viewvacancy'</script> ''')
+    else:
+        return HttpResponse('''<script>alert("Already applied");window.location='/viewvacancy'</script> ''')
 
 
+def uploadvideo(request):
+    vide=request.FILES['file']
+    fs=FileSystemStorage()
+    fp=fs.save(vide.name,vide)
+    ob=videos()
+    ob.video=fp
+    ob.date=datetime.today()
+    ob.save()
+    return HttpResponse('''<script>alert("uploaded");window.location='/careerhome'</script> ''',)
 
 
-    
+def deletetips(request,id):
+    ob=tips.objects.get(id=id)
+    ob.delete()
+    return HttpResponse('''<script>alert("deleted");window.location='/addtips'</script> ''')
+
+def deletevideo(request,id):
+    ob=videos.objects.get(id=id)
+    ob.delete()
+    return HttpResponse('''<script>alert("deleted");window.location='/addvideos'</script> ''')
+
+def deletequestion(request,id):
+    ob=test_questions.objects.get(id=id)
+    ob.delete()
+    return HttpResponse('''<script>alert("deleted");window.location='/managevacancy'</script> ''')
+
+
+def deletemockquestion(request,id):
+    ob=mock_test_questions.objects.get(id=id)
+    ob.delete()
+    return HttpResponse('''<script>alert("deleted");window.location='/editmockquestion'</script> ''')

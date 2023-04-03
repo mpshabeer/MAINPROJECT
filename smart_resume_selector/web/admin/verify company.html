@@ -27,10 +27,11 @@
         <td>{{i.mail}}&nbsp;</td>
         <td>{{i.post}}</td>
         <td>
-          <label>
+          <label>{% if i.lid.utype == 'pending' %}
             <a href="{% url 'verifcmp' id=i.lid.id %}">verify</a>
             <a href="{% url 'reject' id=i.lid.id %}">reject</a>
-          </label></td>
+          </label>{% else %} {{i.lid.utype}}
+          {% endif %}</td>
       </tr>
       {% endfor %}
     </table>

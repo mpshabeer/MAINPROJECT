@@ -30,7 +30,7 @@
         <td>&nbsp;{{i.option3}}</td>
         <td>{{i.option4}}&nbsp;</td>
          <td>&nbsp;{{i.answer}}</td>
-        <td><a href="#">delete</a></td>
+        <td><a href="{% url 'deletequestion' id=i.id %}">delete</a></td>
       </tr>{% endfor %}
 
     </table>

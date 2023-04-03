@@ -38,7 +38,6 @@ class vacancy(models.Model):
 
 class applied(models.Model):
     vid=models.ForeignKey(vacancy,on_delete=models.CASCADE)
-    cid=models.ForeignKey(company,on_delete=models.CASCADE)
     candidate_id=models.ForeignKey(candidate,on_delete=models.CASCADE)
     resume=models.FileField()
 
@@ -100,7 +99,7 @@ class tips(models.Model):
 class videos(models.Model):
 
     date = models.DateField()
-    video=models.FileField
+    video=models.FileField()
 
 class rating(models.Model):
     candidate_id=models.ForeignKey(candidate,on_delete=models.CASCADE)

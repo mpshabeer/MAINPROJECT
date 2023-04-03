@@ -13,20 +13,25 @@
     <table width="444" border="1">
       <tr>
         <th width="54" scope="col">vacancy</th>
+        <th width="54" scope="col">company name</th>
         <th width="92" scope="col">No of Vacancy </th>
         <th width="135" scope="col">Rrequirments</th>
         <th width="135" scope="col">Apply</th>
+        <th width="135" scope="col">attend test</th>
       </tr>
       {% for i in val %}
       <tr>
         <td>{{i.vacancy}}&nbsp;</td>
+        <td>{{i.cid.cname}}&nbsp;</td>
         <td>&nbsp;{{i.no_of_vacancy}}</td>
         <td>{{i.requirments}}<div align="right"></div></td>
+
         <td><div align="right">
           <label>
-          <a href="apply">apply</a>
+          <a href="{% url 'apply' id=i.id %}">apply</a>
           </label>
         </div></td>
+        <td><a href="attendtest">attend test</a> </td>
       </tr>{% endfor %}
     </table>
   </div>
