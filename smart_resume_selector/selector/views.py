@@ -9,7 +9,7 @@ from selector.models import *
 # Create your views here.
 
 def main(request):
-    return render(request,"admin/Login.html")
+    return render(request,"loginindex.html")
 def logincode(request):
     uname=request.POST['username']
     password=request.POST['pwd']
@@ -39,7 +39,7 @@ def verifycompany(request):
     return render(request,"admin/verify company.html",{'val':ob})
 
 def adminhome(request):
-    return render(request,"admin/adminhome.html")
+    return render(request,"adminindex.html")
 
 def viewcandidate(request):
     ob = candidate.objects.all()
@@ -71,7 +71,7 @@ def registercompnay(request):
 
 
 def cmphome(request):
-    return render(request, "company/companyhome.html")
+    return render(request, "companyindex.html")
 
 def managevacancy(request):
     ob = vacancy.objects.filter(cid__lid__id=request.session['lid'])
@@ -116,7 +116,7 @@ def registercandidate(request):
 
 
 def cndhome(request):
-    return render(request, "candidate/candidatehome.html")
+    return render(request, "candidateindex.html")
 
 def viewcnresult(request):
     return render(request, "candidate/viewresult.html")
@@ -166,7 +166,7 @@ def addmockquestion(request):
 
 
 def careerhome(request):
-    return render(request,"careerguidance/careerhome.html")
+    return render(request,"careerindex.html")
 
 def editmockquestion(request):
     ob=mock_test_questions.objects.all()

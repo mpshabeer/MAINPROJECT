@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+{% extends 'companyindex.html' %}
+{% block body %}
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <title>Untitled Document</title>
@@ -8,23 +8,11 @@
 <body>
 <form id="form1" name="form1" method="post" action="postcompliant">
   <div align="center">
-    <p>Post compliant </p>
-    <table width="260" border="1">
+
+
+    <b>View Reply </b>
+    <table width="267" border="1" class="table table-striped">
       <tr>
-        <th width="68" scope="row">Post Compliant</th>
-        <td width="176"><label>
-          <input name="textfield" type="text" maxlength="1000" />
-        </label></td>
-      </tr>
-      
-      <tr>
-        <th colspan="2" scope="row"><label>
-          <input type="submit" name="Submit" value="Submit" />
-        </label></th>
-      </tr>
-    </table>
-    <p>View Reply </p>
-    <table width="267" border="1">
       <tr>
 
         <th width="68" scope="col">Compliant</th>
@@ -43,6 +31,25 @@
     </table>
     <p>&nbsp; </p>
   </div>
+
+
+    <table width="260" border="1" class="table table-striped">
+      <tr>
+      <tr>
+        <th >Post Compliant</th>
+        <td >
+          <input name="textfield" type="text" maxlength="1000" />
+        </td>
+      </tr>
+      
+      <tr><td></td>
+        <th ><label>
+          <input type="submit" name="Submit" value="Submit" />
+        </label></th>
+      </tr>
+    </table>
+<br>
+
 </form>
 </body>
-</html>
+{% endblock %}

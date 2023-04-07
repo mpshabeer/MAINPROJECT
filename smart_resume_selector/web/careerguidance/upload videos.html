@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+{% extends 'careerindex.html' %}
+{% block body %}
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <title>Untitled Document</title>
@@ -9,7 +9,7 @@
 <form action="{% url 'uploadvideo' %}" method="post" enctype="multipart/form-data" name="form1" id="form1">
   <div align="center">
     <p>&nbsp;</p>
-    <table width="350" border="1">
+    <table width="350" border="1" class="table table-striped">
       <tr>
         <th width="90" scope="col">videos</th>
         <th width="138" scope="col">date</th>
@@ -17,14 +17,17 @@
       </tr>
       {% for i in val%}
       <tr>
-        <td>{{i.video}}&nbsp;</td>
+        <td><a href="./media/{{i.video}}">{{i.video}}</a>;</td>
         <td>{{i.date}}&nbsp;</td>
         <td><a href="{% url 'deletevideo' id=i.id %}">delete</a></td>
       </tr>
       {% endfor %}
     </table>
+    <br>
+
+
     <p>&nbsp;</p>
-    <table width="348" border="1">
+    <table width="348" border="1" class="table table-striped">
       <tr>
         <th width="117" scope="row">Upload Videos </th>
         <td width="67"><label>
@@ -35,6 +38,7 @@
         <th colspan="2" scope="row">&nbsp;</th>
       </tr>
       <tr>
+        <td></td>
         <th colspan="2" scope="row"><label>
           <input name="Submit" type="submit" value="submit" />
         </label></th>
@@ -44,4 +48,4 @@
   </div>
 </form>
 </body>
-</html>
+{% endblock %}

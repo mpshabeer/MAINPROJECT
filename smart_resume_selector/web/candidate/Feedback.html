@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+{% extends 'candidateindex.html' %}
+{% block body %}
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <title>Untitled Document</title>
@@ -8,18 +8,19 @@
 <body>
 <form id="form1" name="form1" method="post" action="postfeedback">
   <div align="center">
-    <p>Feedback</p>
-    <table width="200" border="1">
+
+    <table width="200" border="1" class="table table-striped">
       <tr>
         <th scope="row">Feedback</th>
         <td><label>
-          <input type="text" name="textfield" required pattern="[A-Z a-z.]{3,25}"  />
+          <input type="text" name="textfield" required   />
         </label></td>
       </tr>
       <tr>
         <th colspan="2" scope="row">&nbsp;</th>
       </tr>
       <tr>
+        <td></td>
         <th colspan="2" scope="row"><label>
           <input type="submit" name="Submit" value="Submit" />
         </label></th>
@@ -29,4 +30,5 @@
   </div>
 </form>
 </body>
-</html>
+{% endblock %}
+
