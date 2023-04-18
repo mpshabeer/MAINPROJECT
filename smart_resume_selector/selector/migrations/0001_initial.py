@@ -88,16 +88,7 @@ class Migration(migrations.Migration):
                 ('cid', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='selector.company')),
             ],
         ),
-        migrations.CreateModel(
-            name='test_result',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date', models.DateField()),
-                ('candidate_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='selector.candidate')),
-                ('question_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='selector.test_questions')),
-                ('vid', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='selector.vacancy')),
-            ],
-        ),
+
         migrations.AddField(
             model_name='test_questions',
             name='vid',

@@ -2,7 +2,7 @@ from datetime import datetime
 
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from selector.models import candidate, login
 from selector.models import *
@@ -24,6 +24,7 @@ def logincode(request):
             return HttpResponse('''<script>alert("welcome company");window.location='/cmphome'</script>''')
         elif ob.utype == 'candidate':
             request.session['lid'] = ob.id
+            request.session['cnt'] = 0
             return HttpResponse('''<script>alert("welcome candidate");window.location='/cndhome'</script>''')
         elif ob.utype == 'careerguidance':
             request.session['lid'] = ob.id
@@ -124,15 +125,6 @@ def viewcnresult(request):
 
 def viewvacancy(request):
     ob = vacancy.objects.all()
-    from django.db import connection
-    # cursor = connection.cursor()
-    # cursor.execute("SELECT `selector_vacancy`.*,`selector_applied`.* FROM `selector_vacancy` LEFT JOIN `selector_applied` ON `selector_vacancy`.`id`=`selector_applied`.`vid_id` GROUP BY `selector_vacancy`.`id` ")
-    # res=cursor.fetchall()
-    # print(res,"***************************************")
-    # for i in ob:
-    #     obj=applied.objects.filter(candidate_id__lid__id=request.session['lid'],vid__id=i.id)
-    #     print(obj,"+++++++++++++++++++++++++++++++++++=")
-
     return render(request,"candidate/view_vacancy.html",{'val':ob})
 
 def apply(request,id):
@@ -143,7 +135,28 @@ def attendmock(request):
     return render(request,"candidate/attendmocktest.html")
 
 def attendtest(request):
-    return render(request,"candidate/attendtest.html")
+    cnt = request.session['cnt']
+    ob = test_questions.objects.filter(vid=request.session['vid'])
+    q = []
+    for i in ob:
+        q.append(i.id)
+    res1 = test_questions.objects.get(vid=request.session['vid'], id=q[cnt])
+    print(len(ob),len(ob)-1)
+    #####timerrrrrrrrrrrr
+    cc=int(len(ob))
+    print(cc,"=============")
+    import time
+    while cc:
+        mins, secs = divmod(cc, 60)
+        timer = '{:02d}:{:02d}'.format(mins, secs)
+        print(timer, end="\r")
+        time.sleep(1)
+        cc -= 1
+    return render(request, 'candidate/attendtest.html', {'data': res1,'cc':cc, 'ln': len(ob),'ss':int(len(ob)-1),'cnt':int(cnt)})
+
+def countdown(t):
+
+    print('Fire in the hole!!')
 def cancompliantpost(request):
     return render(request,"candidate/candcomplaintpost.html")
 
@@ -407,8 +420,77 @@ def deletequestion(request,id):
     ob.delete()
     return HttpResponse('''<script>alert("deleted");window.location='/managevacancy'</script> ''')
 
-
 def deletemockquestion(request,id):
     ob=mock_test_questions.objects.get(id=id)
     ob.delete()
     return HttpResponse('''<script>alert("deleted");window.location='/editmockquestion'</script> ''')
+
+def viewterms(request,id):
+    request.session['vid']=id
+    request.session['cnt'] = 0
+    obb=test_result.objects.filter(candidate_id__lid__id=request.session['lid'],question_id__vid__id=id)
+    check=test_questions.objects.filter(vid__id=id)
+    print(check,"***************",len(check))
+    print('Fire in the hole!!')
+    if len(check) > 5:
+        if len(obb) == 0:
+            return render(request,"candidate/exam terms.html")
+        else:
+            return HttpResponse('''<script>alert("Already attended!!!!");window.location='/viewvacancy'</script> ''')
+    else:
+        return HttpResponse('''<script>alert("progress!!!!");window.location='/viewvacancy'</script> ''')
+
+
+def mockterms(request):
+    return render(request,"candidate/mockterms.html")
+
+def atexam(request):
+        q = request.POST['q']
+        btn = request.POST['button']
+        ans=request.POST['radiobutton']
+        print(q)
+        print(ans)
+        if btn == "FINISH":
+                request.session['cnt'] = 0
+                obb = test_questions.objects.get(id=q)
+                if obb.answer == ans:
+                    print("hiiiiiiiiiiiiii")
+                    ob = test_result()
+                    ob.mark = 1
+                    ob.date = datetime.today()
+                    ob.candidate_id = candidate.objects.get(lid__id=request.session['lid'])
+                    ob.question_id = test_questions.objects.get(id=q)
+                    ob.save()
+                    return HttpResponse('''<script>alert("succesfully attended");window.location="/cndhome"</script>''')
+                else:
+                    obbb= candidate.objects.get(lid__id=request.session['lid'])
+                    print("hellooooooooooooooo",obbb)
+                    ob = test_result()
+                    ob.mark = 0
+                    ob.date = datetime.today()
+                    ob.candidate_id = candidate.objects.get(lid__id=request.session['lid'])
+                    ob.question_id =test_questions.objects.get(id=q)
+                    ob.save()
+                    return HttpResponse('''<script>alert("succesfully attended");window.location="/cndhome"</script>''')
+        else:
+
+                if btn == "NEXT":
+                    request.session['cnt'] = request.session['cnt'] + 1
+                    obb=test_questions.objects.get(id=q)
+                    if obb.answer == ans:
+                        ob=test_result()
+                        ob.mark=1
+                        ob.date=datetime.today()
+                        ob.candidate_id=candidate.objects.get(lid=request.session['lid'])
+                        ob.question_id=test_questions.objects.get(id=q)
+                        ob.save()
+                        return redirect('attendtest')
+                    else:
+                        ob = test_result()
+                        ob.mark = 0
+                        ob.date = datetime.today()
+                        ob.candidate_id = candidate.objects.get(lid=request.session['lid'])
+                        ob.question_id = test_questions.objects.get(id=q)
+                        ob.save()
+                        return redirect('attendtest')
+

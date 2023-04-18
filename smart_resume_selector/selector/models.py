@@ -69,8 +69,7 @@ class mock_result(models.Model):
 class test_result(models.Model):
     candidate_id=models.ForeignKey(candidate,on_delete=models.CASCADE)
     question_id=models.ForeignKey(test_questions,on_delete=models.CASCADE)
-    vid=models.ForeignKey(vacancy,on_delete=models.CASCADE)
-    mark=models.FloatField
+    mark=models.IntegerField()
     date=models.DateField()
 
 class company_complaint(models.Model):

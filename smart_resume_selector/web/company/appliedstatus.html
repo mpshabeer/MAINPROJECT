@@ -1,19 +1,15 @@
 {% extends 'companyindex.html' %}
 {% block body %}
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>Untitled Document</title>
-</head>
+
 
 <body>
 <form id="form1" name="form1" method="post" action="">
-  <div align="center">
-    <table width="200" border="1" class="table table-striped>
-      <tr>
-        <th ">Vacancy</th>
+<table class="table table-striped">
+    <tr>
+        <th >Vacancy</th>
         <th >candidate name </th>
         <th >resume</th>
-      </tr>
+    </tr>
       {% for i in val %}
       <tr>
         <td>&nbsp;{{i.vid.vacancy}}</td>
@@ -21,8 +17,9 @@
         <td><a href="./media/{{i.resume}}">{{i.resume}}</a></td>
       </tr>
       {% endfor %}
-      </table>
-  </div>
+
+</table>
 </form>
 </body>
+
 {% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'candidateindex.html' %}
+{% block body %}
+
+
+<body>
+<form id="form1" name="form1" method="post" action="{% url 'attendmock' %}#about">
+  <div align="center">
+    <table width="655" border="1"  class="table table-striped">
+      <tr><td></td>
+        <th height="37" scope="col">Terms</th>
+      </tr>
+      <tr>
+        <th width="645" scope="col"><label>
+          <input type="checkbox" name="checkbox" value="checkbox" />
+        </label></th>
+      </tr>
+      <tr>
+        <th scope="col"><input type="checkbox" name="checkbox2" value="checkbox" /></th>
+      </tr>
+      <tr>
+        <th scope="col"><input type="checkbox" name="checkbox3" value="checkbox" /></th>
+      </tr>
+      <tr>
+        <th scope="col"><input type="checkbox" name="checkbox4" value="checkbox" /></th>
+      </tr>
+      <tr>
+        <th scope="col"><label>
+          <a href="cndhome">Back</a></label></th>
+        <td>  <input type="submit" name="Submit" value="Attend Exam" /></td>
+
+        </label></th>
+      </tr>
+      </table>
+  </div>
+</form>
+</body>
+{% endblock %}

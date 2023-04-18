@@ -31,7 +31,7 @@
           <a href="{% url 'apply' id=i.id %}">apply</a>
           </label>
         </div></td>
-        <td><a href="attendtest">attend test</a> </td>
+        <td><a href="{% url 'viewterms' id=i.id %}#about">attend test</a> </td>
       </tr>{% endfor %}
     </table>
   </div>

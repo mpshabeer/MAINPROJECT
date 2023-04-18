@@ -46,8 +46,9 @@ urlpatterns=[
     path('postfeedback', views.postfeedback, name="postfeedback"),
     path('appliedstatus', views.appliedstatus, name="appliedstatus"),
     path('uploadresume', views.uploadresume, name="uploadresume"),
-
-
+    path('viewterms/<int:id>', views.viewterms, name="viewterms"),
+    path('mockterms', views.mockterms, name="mockterms"),
+    path('atexam', views.atexam, name="atexam"),
     path('addmockquestion',views.addmockquestion,name="addmockquestion"),
     path('editmockquestion',views.editmockquestion,name="editmockquestion"),
     path('viewmockresult',views.viewmockresult,name="viewmockresult"),
@@ -55,7 +56,8 @@ urlpatterns=[
     path('addvideos',views.addvideos,name="addvideos"),
     path('postmockqestions',views.postmockqestions,name="postmockqestions"),
     path('posttips', views.posttips, name="posttips"),
-    
+    path('countdown', views.countdown, name="countdown"),
+
     path('cmpreg',views.cmpreg,name="cmpreg"),
     path('cnreg',views.cnreg,name="cnreg"),
     path('careerreg',views.careerreg,name="careerreg"),
