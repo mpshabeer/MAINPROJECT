@@ -1,5 +1,7 @@
 from datetime import datetime
 
+from django.contrib import auth
+from django.contrib.auth.decorators import login_required
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -15,33 +17,43 @@ def logincode(request):
     password=request.POST['pwd']
     try:
         ob=login.objects.get(username=uname,password=password)
-
-
         if ob.utype == 'admin':
+            ob1=auth.authenticate(username='admin',password='admin')
+            if ob1 is not None:
+                auth.login(request,ob1)
             return HttpResponse('''<script>alert("welcome admin");window.location='/adminhome'</script>''')
         elif ob.utype == 'verified':
             request.session['lid']=ob.id
+            ob1 = auth.authenticate(username='admin', password='admin')
+            if ob1 is not None:
+                auth.login(request, ob1)
             return HttpResponse('''<script>alert("welcome company");window.location='/cmphome'</script>''')
         elif ob.utype == 'candidate':
             request.session['lid'] = ob.id
             request.session['cnt'] = 0
+            ob1 = auth.authenticate(username='admin', password='admin')
+            if ob1 is not None:
+                auth.login(request, ob1)
             return HttpResponse('''<script>alert("welcome candidate");window.location='/cndhome'</script>''')
         elif ob.utype == 'careerguidance':
             request.session['lid'] = ob.id
+            ob1 = auth.authenticate(username='admin', password='admin')
+            if ob1 is not None:
+                auth.login(request, ob1)
             return HttpResponse('''<script>alert("welcome careerguidance");window.location='/careerhome'</script>''')
         else:
             return HttpResponse('''<script>alert("invalid username or password");window.location='/'</script>''')
     except:
         return HttpResponse('''<script>alert("invalid username or password");window.location='/'</script>''')
 
-
+@login_required(login_url='/')
 def verifycompany(request):
     ob=company.objects.all()
     return render(request,"admin/verify company.html",{'val':ob})
-
+@login_required(login_url='/')
 def adminhome(request):
     return render(request,"adminindex.html")
-
+@login_required(login_url='/')
 def viewcandidate(request):
     ob = candidate.objects.all()
     return render(request, "admin/view candidate.html",{'val':ob})
@@ -53,61 +65,81 @@ def  addcareerguidance(request):
 def viewcareerguide(request):
     return render(request, "admin/view carrer guide.html")
 
+@login_required(login_url='/')
 def viewcandidatecompliant(request):
     return render(request,"admin/viewcandidatecomplaint.html")
 
-
+@login_required(login_url='/')
 def replycomplaint(request,id):
     request.session['cid']=id
     ob=company_complaint.objects.get(id=id)
     return render(request,"admin/reply.html",{'val':ob})
 
+@login_required(login_url='/')
 def viewcompcompliant(request):
     ob=company_complaint.objects.all()
     return render(request,"admin/Viewcompanycomplaint.html",{'val':ob})
+
 
 def registercompnay(request):
    
     return render(request,"company/Company registration.html")
 
 
+@login_required(login_url='/')
 def cmphome(request):
     return render(request, "companyindex.html")
 
+@login_required(login_url='/')
 def managevacancy(request):
     ob = vacancy.objects.filter(cid__lid__id=request.session['lid'])
     # request.session['cid'] = id
     # obj = test_questions.objects.filter()
     return render(request,"company/managevacancy.html",{'val':ob})
 
+@login_required(login_url='/')
 def addvacancy(request):
     return render(request,"company/addvacancy.html")
 
+@login_required(login_url='/')
 def addquestion(request,id):
     request.session['vid'] = id
     ob=vacancy.objects.get(id=id)
     return render(request,"company/add question.html",{'val':ob})
 
 
+@login_required(login_url='/')
 def editquestion(request,id):
 
     request.session['vid'] = id
     ob=test_questions.objects.filter(vid__id=id)
     return render(request,"company/edit Qustions.html",{'val':ob})
 
-def viewresult(request):
-    return render(request,"company/Test_result.html")
+@login_required(login_url='/')
+def viewresult(request,id):
+    from django.db.models import Sum
+    # ob=test_result.objects.filter(question_id__vid__id=id).aggregate(Sum('mark'))
+    # print(ob,"==========")
+    result = test_result.objects.filter(question_id__vid__id=id).values('date','candidate_id_id__name','candidate_id_id__mail').order_by('candidate_id_id').annotate(sum=Sum('mark'))
+    print(result,"*****************************************")
+    return render(request,"company/Test_result.html",{'val':result})
 
+@login_required(login_url='/')
 def postcompcompliant(request):
     ob=company_complaint.objects.filter(cid__lid__id=request.session['lid'])
     return render(request,"company/compcomplaintpost.html",{'val':ob})
 
+@login_required(login_url='/')
 def viewcompcompliantreply(request):
     return render(request,"company/company View replay.html")
+
+
+@login_required(login_url='/')
 def appliedstatus(request):
-    ob=applied.objects.all()
+    ob=applied.objects.filter(vid__cid__lid__id=request.session['lid'])
     return render(request,"company/appliedstatus.html",{'val':ob})
 
+@login_required(login_url='/')
 def viewfeedback(request):
     ob=feedback.objects.all()
     return render(request,"admin/View_feedback.html",{'val':ob})
@@ -119,14 +151,18 @@ def registercandidate(request):
 def cndhome(request):
     return render(request, "candidateindex.html")
 
+@login_required(login_url='/')
 def viewcnresult(request):
-    return render(request, "candidate/viewresult.html")
+    from django.db.models import Sum
+    result = test_result.objects.filter(candidate_id__lid__id=request.session['lid']).values('date', 'question_id_id__vid_id__cid_id__cname', 'question_id_id__vid_id__vacancy').order_by('candidate_id_id').annotate(sum=Sum('mark'))
+    return render(request, "candidate/viewresult.html",{'val':result})
 
 
 def viewvacancy(request):
     ob = vacancy.objects.all()
     return render(request,"candidate/view_vacancy.html",{'val':ob})
 
+@login_required(login_url='/')
 def apply(request,id):
     request.session['vid']=id
     return render(request,"candidate/Apply.html")
@@ -134,6 +170,8 @@ def apply(request,id):
 def attendmock(request):
     return render(request,"candidate/attendmocktest.html")
 
+
+@login_required(login_url='/')
 def attendtest(request):
     cnt = request.session['cnt']
     ob = test_questions.objects.filter(vid=request.session['vid'])
@@ -141,36 +179,34 @@ def attendtest(request):
     for i in ob:
         q.append(i.id)
     res1 = test_questions.objects.get(vid=request.session['vid'], id=q[cnt])
-    print(len(ob),len(ob)-1)
-    #####timerrrrrrrrrrrr
-    cc=int(len(ob))
-    print(cc,"=============")
-    import time
-    while cc:
-        mins, secs = divmod(cc, 60)
-        timer = '{:02d}:{:02d}'.format(mins, secs)
-        print(timer, end="\r")
-        time.sleep(1)
-        cc -= 1
-    return render(request, 'candidate/attendtest.html', {'data': res1,'cc':cc, 'ln': len(ob),'ss':int(len(ob)-1),'cnt':int(cnt)})
+    return render(request, 'candidate/attendtest.html', {'data': res1, 'ln': len(ob),'ss':int(len(ob)-1),'cnt':int(cnt)})
 
 def countdown(t):
 
     print('Fire in the hole!!')
+
+
+
 def cancompliantpost(request):
     return render(request,"candidate/candcomplaintpost.html")
 
 def candidatteviewreply(request):
     return render(request,"candidate/candidateviewreply.html")
 
+
+@login_required(login_url='/')
 def viewvideos(request):
     ob = videos.objects.all()
     return render(request,"candidate/view videos.html",{'val':ob})
 
+
+@login_required(login_url='/')
 def viewtips(request):
     ob=tips.objects.all()
     return render(request,"candidate/view tips.html",{'val':ob})
 
+
+@login_required(login_url='/')
 def postfeed(request):
     return render(request,"candidate/Feedback.html")
 
@@ -189,10 +225,12 @@ def viewmockresult(request):
     return render(request,"careerguidance/Mocktest_result.html")
 
 
+@login_required(login_url='/')
 def addtips(request):
     ob=tips.objects.all()
     return render(request,"careerguidance/upload Tips.html",{'val':ob})
 
+@login_required(login_url='/')
 def addvideos(request):
     ob=videos.objects.all()
     return render(request,"careerguidance/upload videos.html",{'val':ob})
@@ -270,12 +308,15 @@ def careerreg(request):
 
 
 
+@login_required(login_url='/')
 def verifcmp(request,id):
     ob=login.objects.get(id=id)
     ob.utype='verified'
     ob.save()
     return HttpResponse('''<script>alert("approved");window.location='/verifycompany'</script> ''')
 
+
+@login_required(login_url='/')
 def reject(request,id):
     ob=login.objects.get(id=id)
     ob.utype='rejected'
@@ -284,6 +325,7 @@ def reject(request,id):
 
 
 
+@login_required(login_url='/')
 def vacancyadd(request):
     vacancys=request.POST['textfield']
     requirments=request.POST['textfield2']
@@ -296,6 +338,8 @@ def vacancyadd(request):
     ob.save()
     return HttpResponse('''<script>alert("Added");window.location='/managevacancy'</script> ''')
 
+
+@login_required(login_url='/')
 def postcompliant (request):
     compliant=request.POST['textfield']
     ob=company_complaint()
@@ -306,11 +350,16 @@ def postcompliant (request):
     ob.save()
     return HttpResponse('''<script>alert("Added");window.location='/cmphome'</script> ''')
 
+
+@login_required(login_url='/')
 def deletecompliant(request,id):
     ob = company_complaint.objects.get(id=id)
     ob.delete()
     return HttpResponse('''<script>alert("deleted");window.location='/cmphome'</script> ''')
 
+
+
+@login_required(login_url='/')
 def postreply(request):
     reply = request.POST['textarea']
     ob=company_complaint.objects.get(id=request.session['cid'])
@@ -494,3 +543,12 @@ def atexam(request):
                         ob.save()
                         return redirect('attendtest')
 
+def deleteresume(request,id):
+    ob = applied.objects.get(id=id)
+    ob.delete()
+    return HttpResponse('''<script>alert("deleted");window.location='/appliedstatus'</script> ''')
+
+
+def logout(request):
+    auth.logout(request)
+    return HttpResponse('''<script>alert("logouted");window.location='/'</script> ''')

@@ -25,16 +25,17 @@
         <td>{{i.no_of_vacancy}}</td>
         <td>{{i.requirments}}</td>
         <td>
-          <a href="{% url 'deletevacancy' id=i.id %}">DELETE</a><a href=""> </a></td>
-        <td><a href="{% url 'addquestion' id=i.id %}">ADD QUESTION </a><br />
-          <a href="{% url 'editquestion' id=i.id %}">Manage QUESTION</a><a href=""> </a></td>
-        <td><a href="viewresult">View Test Result</a> </td>
+          <a href="{% url 'deletevacancy' id=i.id %}#about">DELETE</a><a href=""> </a></td>
+        <td><a href="{% url 'addquestion' id=i.id %}#about">ADD QUESTION </a><br />
+          <a href="{% url 'editquestion' id=i.id %}#about">Manage QUESTION</a><a href=""> </a></td>
+        <td><a href="{% url 'viewresult' id=i.id %}#about">View Test Result</a> </td>
       </tr>
      {% endfor %}
       <tr>
         <td colspan="5"><div align="right">
             <label></label>
             <div align="center"><a href=""></a>  <a href="{% url 'addvacancy' %}#about">ADD VACANCY</a><br />
+
         <a href=""></a>     </div></div></td>
       </tr>
     </table>

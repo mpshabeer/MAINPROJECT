@@ -24,7 +24,7 @@ urlpatterns=[
     path('addvacancy',views.addvacancy,name="addvacancy"),
     path('addquestion/<int:id>',views.addquestion,name="addquestion"),
     path('editquestion/<int:id>',views.editquestion,name="editquestion"),
-    path('viewresult',views.viewresult,name="viewresult"),
+    path('viewresult/<int:id>',views.viewresult,name="viewresult"),
     path('postcompcompliant',views.postcompcompliant,name="postcompcompliant"),
     path('viewcompcompliantreply',views.viewcompcompliantreply,name="viewcompcompliantreply"),
     path('viewfeedback',views.viewfeedback,name="viewfeedback"),
@@ -77,7 +77,9 @@ urlpatterns=[
     path('deletevideo/<int:id>', views.deletevideo, name="deletevideo"),
     path('viewcnresult',views.viewcnresult,name="viewcnresult"),
 
+    path('deleteresume/<int:id>', views.deleteresume, name="deleteresume"),
 
+    path('logout', views.logout, name="logout"),
 
 ] 
 
