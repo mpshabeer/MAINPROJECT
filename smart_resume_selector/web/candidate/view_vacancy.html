@@ -12,23 +12,29 @@
     <p>VIEW VACANCY </p>
     <table width="444" border="1" class="table table-striped">
       <tr>
-        <th width="54" scope="col">vacancy</th>
-        <th width="54" scope="col">company name</th>
-        <th width="92" scope="col">No of Vacancy </th>
-        <th width="135" scope="col">Rrequirments</th>
-        <th width="135" scope="col">Apply</th>
-        <th width="135" scope="col">attend test</th>
+        <th >vacancy</th>
+        <th >company name</th>
+        <th >No of Vacancy </th>
+        <th >Experiance</th>
+        <th >Rrequirments</th>
+        <th >Apply</th>
+
+        <th >attend test</th>
+        <th></th>
       </tr>
       {% for i in val %}
       <tr>
         <td>{{i.vacancy}}&nbsp;</td>
         <td>{{i.cid.cname}}&nbsp;</td>
         <td>&nbsp;{{i.no_of_vacancy}}</td>
-        <td>{{i.requirments}}<div align="right"></div></td>
+         <td>{{i.experiance}}</td>
+        <td>{{i.requirments}}</td>
+        <td>{{i.experiance}}</td>
+        </td>
 
         <td><div align="right">
           <label>
-          <a href="{% url 'apply' id=i.id %}">apply</a>
+          <a href="{% url 'apply' id=i.id %}#about">apply</a>
           </label>
         </div></td>
         <td><a href="{% url 'viewterms' id=i.id %}#about">attend test</a> </td>

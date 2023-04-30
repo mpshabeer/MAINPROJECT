@@ -1,0 +1,26 @@
+{% extends 'companyindex.html' %}
+{% block body %}
+
+
+<body>
+<form id="form1" name="form1" method="post" action="">
+  <div align="center">
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <table width="758" border="1" class="table table-striped">
+      <tr>
+        <th width="54" scope="col">vaccancy</th>
+        <th width="92" scope="col">Resume Score and Rank </th>
+      </tr>
+     {% for i in val %}
+      <tr>
+        <td>{{i.vacancy}}</td>
+        <td>
+          <a href="{% url 'rankscore' id=i.id %}#about">Score  Rank </a></td>
+       </tr>
+     {% endfor %}
+    </table>
+  </div>
+</form>
+</body>
+ {% endblock %}

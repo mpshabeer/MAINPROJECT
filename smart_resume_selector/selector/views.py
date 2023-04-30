@@ -1,3 +1,5 @@
+import operator
+import time
 from datetime import datetime
 
 from django.contrib import auth
@@ -6,11 +8,22 @@ from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
+# from pyresparser import ResumeParser
+from pdfminer3.layout import LAParams, LTTextBox
+from pdfminer3.pdfpage import PDFPage
+from pdfminer3.pdfinterp import PDFResourceManager
+from pdfminer3.pdfinterp import PDFPageInterpreter
+from pdfminer3.converter import TextConverter
+
+import io, random
+
+from selector.dt import predict1
 from selector.models import candidate, login
 from selector.models import *
 # Create your views here.
 
 def main(request):
+
     return render(request,"loginindex.html")
 def logincode(request):
     uname=request.POST['username']
@@ -154,7 +167,18 @@ def cndhome(request):
 @login_required(login_url='/')
 def viewcnresult(request):
     from django.db.models import Sum
-    result = test_result.objects.filter(candidate_id__lid__id=request.session['lid']).values('date', 'question_id_id__vid_id__cid_id__cname', 'question_id_id__vid_id__vacancy').order_by('candidate_id_id').annotate(sum=Sum('mark'))
+    result = test_result.objects.filter(candidate_id__lid__id=request.session['lid']).values('question_id_id__vid_id','date', 'question_id_id__vid_id__cid_id__cname', 'question_id_id__vid_id__vacancy').order_by('candidate_id_id').annotate(sum=Sum('mark'))
+    for i in result:
+
+        score=applied.objects.filter(candidate_id__lid__id=request.session['lid'],vid__id=i['question_id_id__vid_id'])
+        for jj in score:
+
+            i['predicted_score']=jj.predicted_score
+            break
+        else:
+            i['predicted_score'] = "pending"
+        print(i)
+
     return render(request, "candidate/viewresult.html",{'val':result})
 
 
@@ -330,10 +354,12 @@ def vacancyadd(request):
     vacancys=request.POST['textfield']
     requirments=request.POST['textfield2']
     noofvacancy=request.POST['textfield3']
+    exp=request.POST['exp']
     ob=vacancy()
     ob.vacancy=vacancys
     ob.requirments=requirments
     ob.no_of_vacancy=noofvacancy
+    ob.experiance=exp
     ob.cid=company.objects.get(lid__id=request.session['lid'])
     ob.save()
     return HttpResponse('''<script>alert("Added");window.location='/managevacancy'</script> ''')
@@ -407,6 +433,7 @@ def postmockqestions(request):
     ob.save()
     return HttpResponse('''<script>alert("Added");window.location='/addmockquestion'</script> ''')
 
+@login_required(login_url='/')
 def postfeedback(request):
     feedback1=request.POST['textfield']
     ob=feedback()
@@ -415,6 +442,7 @@ def postfeedback(request):
     ob.save()
     return HttpResponse('''<script>alert("Added");window.location='/cndhome'</script> ''')
 
+@login_required(login_url='/')
 def posttips(request):
     tips1=request.POST['textfield']
     ob=tips()
@@ -422,27 +450,112 @@ def posttips(request):
     ob.tips=tips1
     ob.save()
     return HttpResponse('''<script>alert("Added");window.location='/careerhome'</script> ''')
+
+@login_required(login_url='/')
 def deletevacancy(request,id):
     ob=vacancy.objects.get(id=id)
     ob.delete()
     return HttpResponse('''<script>alert("deleted");window.location='/managevacancy'</script> ''')
 
+@login_required(login_url='/')
 def uploadresume(request):
     ob1=applied.objects.filter(candidate_id__lid__id=request.session['lid'],vid__id=request.session['vid'])
     if len(ob1) == 0:
-        resume=request.FILES['file']
-        fs=FileSystemStorage()
-        fp=fs.save(resume.name,resume)
-        ob=applied()
-        ob.resume=fp
-        ob.candidate_id=candidate.objects.get(lid__id=request.session['lid'])
-        ob.vid=vacancy.objects.get(id=request.session['vid'])
-        ob.save()
-        return HttpResponse('''<script>alert("uploaded");window.location='/viewvacancy'</script> ''')
+        obv=vacancy.objects.get(id=request.session['vid'])
+        req=obv.requirments.lower().replace("\r","").split('\n')
+        print(req,"=================")
+        resume = request.FILES['file']
+        userexp=request.POST['userexp']
+        if obv.experiance <= int(userexp):
+            fs = FileSystemStorage()
+            fp = fs.save(resume.name, resume)
+            gend = '1'
+            age = '18'
+            # q1 = request.POST['q1']
+            # q2 = request.POST['q2']
+            # q3 = request.POST['q3']
+            # q4 = request.POST['q4']
+            # q5 = request.POST['q5']
+            # fs = fp.save('1.pdf', resume)
+            # print(img.filename, "===")
+            # img.save(r"C:\Users\TOSHIBA\Desktop\cvanalysis\\"+img.filename.split('/')[-1])
+            # img.save(r"C:\Users\TOSHIBA\Desktop\cvanalysis\1.pdf")
+            save_image_path = "media/"+fp
+            # resume_data = ResumeParser(save_image_path).get_extracted_data()
+            # print(resume_data)
+            ### Resume writing recommendation
+            resume_text = pdf_reader(save_image_path).lower()
+            resume_score = 0
+            print("RT \n", resume_text)
+            if 'objective' or 'OBJECTIVE' in resume_text:
+                resume_score = resume_score + 5
+                a = '[+] Awesome! You have added Objective'
+            else:
+                a = '[-] According to our recommendation please add your career objective, it will give your career intension to the Recruiters.'
+
+            if 'declaration' in resume_text or 'DECLARATION' in resume_text:
+                resume_score = resume_score + 5
+                b = '[+] Awesome! You have added Declaration✍'
+            else:
+                b = '[-] According to our recommendation please add Declaration✍. It will give the assurance that everything written on your resume is true and fully acknowledged by you'
+        #
+            obb=vacancy.objects.get(id=request.session['vid'])
+            rcs=60/len(req)
+            crcs=0
+            count=0
+            for cr in req:
+                if cr in resume_text :
+                    resume_score = resume_score + rcs
+                    h = '[+] Awesome! You have added your requirements⚽'
+                    count=count+1
+                else:
+                    h = '[-] According to our recommendation please add requirements ⚽.'
+            h = '[+]  You have '+str(count)+  ' requirements matches ⚽'
+            if 'hobbies' in resume_text or 'HOBBIES' in resume_text or 'Interests' in resume_text or 'INTERESTS' in resume_text:
+                resume_score = resume_score + 5
+                c = '[+] Awesome! You have added your Hobbies⚽'
+            else:
+                c = '[-] According to our recommendation please add Hobbies⚽. It will show your persnality to the Recruiters and give the assurance that you are fit for this role or not.'
+
+            if 'achievements' in resume_text or 'ACHIEVEMENTS' in resume_text:
+                resume_score = resume_score + 10
+                d = '[+] Awesome! You have added your Achievements🏅'
+            else:
+                d = '[-] According to our recommendation please add Achievements🏅. It will show that you are capable for the required position.'
+
+            if 'projects' in resume_text or 'project' in resume_text:
+                resume_score = resume_score + 15
+                e = '[+] Awesome! You have added your Projects👨‍💻'
+            else:
+                e = '[-] According to our recommendation please add Projects👨‍💻. It will show that you have done work related the required position or not.'
+            f = '**Resume Score📝**"'
+            score = resume_score
+            # for percent_complete in range(resume_score):
+            #     score += 1
+            #     time.sleep(0.1)
+            g = 'Your Resume Writing Score:' + str(score)
+            print(" Your Resume Writing Score: ", str(score))
+            print(a, b, c, d, e)
+            h = '** Note: This score is calculated based on the content that you have added in your Resume. **'
+            # print(predict1(['1', '18', '5', '5', '7', '6', '5']))
+            # pred = predict1([gend, age, q1, q2, q3, q4, q5])
+            # print(pred)
+            data = []
+            # row = {"task": "success", "a": a, "b": b, "c": c, "d": d, "e": e, "prd": pred, "sc": str(score)}
+            ob = applied()
+            ob.predicted_score=int(score)
+            ob.status='predicted'
+            ob.resume = fp
+            ob.candidate_id = candidate.objects.get(lid__id=request.session['lid'])
+            ob.vid = vacancy.objects.get(id=request.session['vid'])
+            ob.save()
+            return HttpResponse('''<script>alert("uploaded");window.location='/viewvacancy'</script> ''')
+        else:
+            return HttpResponse('''<script>alert("The application doesnot met the minimum Experiance");window.location='/viewvacancy'</script> ''')
     else:
         return HttpResponse('''<script>alert("Already applied");window.location='/viewvacancy'</script> ''')
 
-
+@login_required(login_url='/')
 def uploadvideo(request):
     vide=request.FILES['file']
     fs=FileSystemStorage()
@@ -474,6 +587,7 @@ def deletemockquestion(request,id):
     ob.delete()
     return HttpResponse('''<script>alert("deleted");window.location='/editmockquestion'</script> ''')
 
+@login_required(login_url='/')
 def viewterms(request,id):
     request.session['vid']=id
     request.session['cnt'] = 0
@@ -492,7 +606,7 @@ def viewterms(request,id):
 
 def mockterms(request):
     return render(request,"candidate/mockterms.html")
-
+@login_required(login_url='/')
 def atexam(request):
         q = request.POST['q']
         btn = request.POST['button']
@@ -542,7 +656,7 @@ def atexam(request):
                         ob.question_id = test_questions.objects.get(id=q)
                         ob.save()
                         return redirect('attendtest')
-
+@login_required(login_url='/')
 def deleteresume(request,id):
     ob = applied.objects.get(id=id)
     ob.delete()
@@ -552,3 +666,52 @@ def deleteresume(request,id):
 def logout(request):
     auth.logout(request)
     return HttpResponse('''<script>alert("logouted");window.location='/'</script> ''')
+
+@login_required(login_url='/')
+def resumescore(request):
+    ob = vacancy.objects.filter(cid__lid__id=request.session['lid'])
+    return render(request,"company/viewresumescore.html",{'val':ob})
+
+@login_required(login_url='/')
+def rankscore(request,id):
+    from django.db.models import Sum
+
+    result = test_result.objects.filter(question_id__vid__id=id).values('date', 'candidate_id_id__name', 'candidate_id_id__phone','candidate_id_id__mail','candidate_id_id__id').order_by('candidate_id_id').annotate(sum=Sum('mark'))
+
+    for i in result:
+
+        score = applied.objects.filter(vid__id=id,candidate_id__id=i['candidate_id_id__id'])
+        print(score,"======================")
+        tm=int(i['sum'])
+        for jj in score:
+
+            i['predicted_score'] = int(jj.predicted_score)
+            tm=tm+int(jj.predicted_score)/5
+            break
+        else:
+            i['predicted_score'] = "pending"
+        i['tm']=tm
+        print(i)
+        # qry="insert into table sortrank values()"
+#     r={'date': datetime.date(2023, 4, 30), 'candidate_id_id__name': 'shabeeb', 'candidate_id_id__phone': 8281927605, 'candidate_id_id__mail': 'mpshabeer007@gmail.com', 'candidate_id_id__id': 4
+# , 'sum': 9, 'predicted_score': 80, 'tm': 25.0}
+
+
+    return render(request,"company/viewrankscore.html",{'val':result})
+
+
+def pdf_reader(file):
+    resource_manager = PDFResourceManager()
+    fake_file_handle = io.StringIO()
+    converter = TextConverter(resource_manager, fake_file_handle, laparams=LAParams())
+    page_interpreter = PDFPageInterpreter(resource_manager, converter)
+    with open(file, 'rb') as fh:
+        for page in PDFPage.get_pages(fh,
+                                      caching=True,
+                                      check_extractable=True):
+            page_interpreter.process_page(page)
+            print(page)
+        text = fake_file_handle.getvalue()
+    converter.close()
+    fake_file_handle.close()
+    return text

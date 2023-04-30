@@ -80,7 +80,8 @@ urlpatterns=[
     path('deleteresume/<int:id>', views.deleteresume, name="deleteresume"),
 
     path('logout', views.logout, name="logout"),
-
+    path('resumescore', views.resumescore, name="resumescore"),
+    path('rankscore<int:id>', views.rankscore, name="rankscore"),
 ] 
 
 

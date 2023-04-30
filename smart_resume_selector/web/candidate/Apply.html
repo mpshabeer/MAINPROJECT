@@ -9,17 +9,24 @@
 <form action="{% url 'uploadresume' %}" method="post" enctype="multipart/form-data" name="form1" id="form1">
   <div align="center">
     <p>Apply</p>
-    <table width="348" border="1">
+    <table width="348" border="1" class="table table-striped">
       <tr>
-        <th width="117" scope="row">Upload Resume </th>
-        <td width="67"><label>
+        <th width="117" scope="row"> Resume</th>
+           <td width="67"><label>
           <input type="file" name="file" accept="application/pdf" required/>
+        </label></td>
+
+      </tr>
+      <tr>
+      <th>Experiance</th>
+        <td width="67"><label>
+          <input type="number" name="userexp" required/>
         </label></td>
       </tr>
       <tr>
         <th colspan="2" scope="row">&nbsp;</th>
       </tr>
-      <tr>
+      <tr><td></td>
         <th colspan="2" scope="row"><label>
           <input name="Submit" type="submit" value="submit" />
         </label></th>

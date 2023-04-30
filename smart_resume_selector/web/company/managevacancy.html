@@ -14,6 +14,7 @@
       <tr>
         <th width="54" scope="col">vaccancy</th>
         <th width="92" scope="col">No of Vaccancy </th>
+        <th width="140" scope="col">Experiance</th>
         <th width="140" scope="col">Requirements</th>
         <th width="219" scope="col">delete </th>
         <th width="219" scope="col">Add Question / view Question </th>
@@ -23,6 +24,7 @@
       <tr>
         <td>{{i.vacancy}}</td>
         <td>{{i.no_of_vacancy}}</td>
+        <td>{{i.experiance}}</td>
         <td>{{i.requirments}}</td>
         <td>
           <a href="{% url 'deletevacancy' id=i.id %}#about">DELETE</a><a href=""> </a></td>

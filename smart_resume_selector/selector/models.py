@@ -33,12 +33,15 @@ class career_guidance(models.Model):
 class vacancy(models.Model):
     cid=models.ForeignKey(company,on_delete=models.CASCADE)
     vacancy=models.CharField(max_length=100)
-    requirments=models.CharField(max_length=300)
+    requirments=models.TextField()
+    experiance=models.IntegerField()
     no_of_vacancy=models.IntegerField()
 
 class applied(models.Model):
     vid=models.ForeignKey(vacancy,on_delete=models.CASCADE)
     candidate_id=models.ForeignKey(candidate,on_delete=models.CASCADE)
+    predicted_score=models.FloatField(max_length=500)
+    status=models.CharField(max_length=100)
     resume=models.FileField()
 
 class mock_test_questions(models.Model):
@@ -105,7 +108,6 @@ class rating(models.Model):
     cid=models.ForeignKey(company,on_delete=models.CASCADE)
     candidate_id=models.ForeignKey(candidate,on_delete=models.CASCADE)
     rating=models.BigIntegerField()
-
 
 
 

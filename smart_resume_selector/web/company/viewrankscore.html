@@ -1,0 +1,41 @@
+{% extends 'companyindex.html' %}
+{% block body %}
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+<form id="form1" name="form1" method="post" action="">
+
+    <table width="758" border="1" class="table table-striped">
+      <tr>
+       <th >Total Score </th>
+          <th >Name</th>
+       
+	<th >Mobile No</th>
+	<th >Email</th>
+	<th >Test Score</th>
+          <th>Date</th>
+          <th>Resume Scores</th>
+
+
+      </tr>
+
+           {% for i in val %}
+      <tr>
+      <td>{{i.tm}}</td>
+        <td>&nbsp;{{i.candidate_id_id__name}}</td>
+          <td>&nbsp;{{i.candidate_id_id__phone}}</td>
+        <td>&nbsp;{{i.candidate_id_id__mail}}</td>
+        <td>&nbsp;{{i.sum}}</td>
+        <td>&nbsp;{{i.date}}</td>
+          <td>{{i.predicted_score}}</td>
+          <td>{{i.tm}}</td>
+      </tr>
+    {% endfor %}
+    </table>
+
+</form>
+</body>
+{% endblock %}
