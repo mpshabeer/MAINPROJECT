@@ -10,28 +10,41 @@
 
     <table width="758" border="1" class="table table-striped">
       <tr>
-       <th >Total Score </th>
+       <th >Rank </th>
+                 <th >Rank Score</th>
+
           <th >Name</th>
        
 	<th >Mobile No</th>
 	<th >Email</th>
 	<th >Test Score</th>
+          <th>Resume</th>
           <th>Date</th>
           <th>Resume Scores</th>
+
 
 
       </tr>
 
            {% for i in val %}
       <tr>
+          <td>{{forloop.counter}}</td>
       <td>{{i.tm}}</td>
         <td>&nbsp;{{i.candidate_id_id__name}}</td>
           <td>&nbsp;{{i.candidate_id_id__phone}}</td>
-        <td>&nbsp;{{i.candidate_id_id__mail}}</td>
+        <td>&nbsp;<a href="mailto:{{i.candidate_id_id__mail}}">{{i.candidate_id_id__mail}}</a> </td>
         <td>&nbsp;{{i.sum}}</td>
+          <td>
+              {% if i.predicted_score == "pending" %}
+              pending
+              {% else %}
+              <a href="./media/{{i.resume}}">
+
+              download</a>
+          {% endif %}</td>
         <td>&nbsp;{{i.date}}</td>
           <td>{{i.predicted_score}}</td>
-          <td>{{i.tm}}</td>
+
       </tr>
     {% endfor %}
     </table>

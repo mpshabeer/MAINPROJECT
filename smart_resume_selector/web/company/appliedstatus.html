@@ -9,7 +9,7 @@
         <th >Vacancy</th>
         <th >candidate name </th>
         <th >resume</th>
-        <th>delete</th>
+        <!--<th>delete</th>-->
     </tr>
       {% for i in val %}
 
@@ -17,7 +17,7 @@
         <td>&nbsp;{{i.vid.vacancy}}</td>
         <td>{{i.candidate_id.name}}&nbsp;</td>
         <td><a href="./media/{{i.resume}}">{{i.resume}}</a></td>
-         <td><a href="{% url 'deleteresume' id=i.id %}">delete</a> </td>
+         <!--<td><a href="{% url 'deleteresume' id=i.id %}">delete</a> </td>-->
       </tr>
       {% endfor %}
 

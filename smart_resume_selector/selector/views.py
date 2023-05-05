@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-
+from .predictionfile_nb import predictfn
 # from pyresparser import ResumeParser
 from pdfminer3.layout import LAParams, LTTextBox
 from pdfminer3.pdfpage import PDFPage
@@ -188,8 +188,10 @@ def viewvacancy(request):
 
 @login_required(login_url='/')
 def apply(request,id):
+
     request.session['vid']=id
     return render(request,"candidate/Apply.html")
+
 
 def attendmock(request):
     return render(request,"candidate/attendmocktest.html")
@@ -453,7 +455,13 @@ def posttips(request):
 
 @login_required(login_url='/')
 def deletevacancy(request,id):
-    ob=vacancy.objects.get(id=id)
+    ob4=applied.objects.filter(vid_id=id)
+    ob4.delete()
+    ob3=test_result.objects.filter(question_id_id__vid_id=id)
+    ob3.delete()
+    ob1=test_questions.objects.filter(vid__id=id)
+    ob1.delete()
+    ob = vacancy.objects.get(id=id)
     ob.delete()
     return HttpResponse('''<script>alert("deleted");window.location='/managevacancy'</script> ''')
 
@@ -554,6 +562,31 @@ def uploadresume(request):
             return HttpResponse('''<script>alert("The application doesnot met the minimum Experiance");window.location='/viewvacancy'</script> ''')
     else:
         return HttpResponse('''<script>alert("Already applied");window.location='/viewvacancy'</script> ''')
+
+@login_required(login_url='/')
+def uploadresume1(request):
+
+
+        resume = request.FILES['file']
+        userexp=request.POST['userexp']
+        fs = FileSystemStorage()
+        fp = fs.save(resume.name, resume)
+
+        save_image_path = "media/"+fp
+
+        resume_text = pdf_reader(save_image_path).lower()
+        res=predictfn(resume_text)
+        print("++++++++++====================")
+        print("++++++++++====================")
+        print("++++++++++====================")
+        print(res)
+        print(res)
+        print(res)
+        print("++++++++++====================")
+        print("++++++++++====================")
+        print("++++++++++====================")
+        ob=vacancy.objects.filter(vacancy=res,experiance__lte=int(userexp))
+        return render(request, "candidate/predjob.html", {'val': ob})
 
 @login_required(login_url='/')
 def uploadvideo(request):
@@ -675,21 +708,19 @@ def resumescore(request):
 @login_required(login_url='/')
 def rankscore(request,id):
     from django.db.models import Sum
-
-    result = test_result.objects.filter(question_id__vid__id=id).values('date', 'candidate_id_id__name', 'candidate_id_id__phone','candidate_id_id__mail','candidate_id_id__id').order_by('candidate_id_id').annotate(sum=Sum('mark'))
-
+    result = test_result.objects.filter(question_id__vid__id=id).values('date', 'candidate_id_id__name', 'candidate_id_id__phone','candidate_id_id__mail','candidate_id_id__id').order_by('candidate_id_id').annotate(sum=Sum('mark')).order_by('-sum')
     for i in result:
-
-        score = applied.objects.filter(vid__id=id,candidate_id__id=i['candidate_id_id__id'])
+        score = applied.objects.filter(vid__id=id,candidate_id__id=i['candidate_id_id__id']).order_by('-predicted_score')
         print(score,"======================")
         tm=int(i['sum'])
         for jj in score:
-
+            i['resume']=jj.resume
             i['predicted_score'] = int(jj.predicted_score)
             tm=tm+int(jj.predicted_score)/5
             break
         else:
             i['predicted_score'] = "pending"
+            # i['resume']="pending"
         i['tm']=tm
         print(i)
         # qry="insert into table sortrank values()"
@@ -715,3 +746,9 @@ def pdf_reader(file):
     converter.close()
     fake_file_handle.close()
     return text
+
+
+
+
+def predictresume(request):
+    return render(request,"candidate/predict.html")
